@@ -30,7 +30,7 @@ void matrix_destroy(struct matrix* m) {
     free(m);
 }
 
-void matrix_display(struct matrix* m) {
+void matrix_display(const struct matrix* m) {
     for(unsigned y = 0; y < m->rows; ++y) {
         for(unsigned x = 0; x < m->columns; ++x) {
             printf("%.3f\t", m->array[x][y]);
@@ -39,11 +39,11 @@ void matrix_display(struct matrix* m) {
     }
 }
 
-void matrix_assert_square(struct matrix* m) {
+void matrix_assert_square(const struct matrix* m) {
     assert(m->rows == m->columns);
 }
 
-double matrix_determinant(struct matrix* m) {
+double matrix_determinant(const struct matrix* m) {
     matrix_assert_square(m);
 
     unsigned size = m->columns;
@@ -73,7 +73,7 @@ double matrix_determinant(struct matrix* m) {
     return determinant;
 }
 
-void matrix_minors(struct matrix* m, struct matrix* minors) {
+void matrix_minors(const struct matrix* m, struct matrix* minors) {
     matrix_assert_square(m);
     matrix_assert_square(minors);
     assert(m->rows == minors->rows);
@@ -124,7 +124,7 @@ void matrix_minors(struct matrix* m, struct matrix* minors) {
     }
 }
 
-void matrix_adjugate(struct matrix* m, struct matrix* adjugate) {
+void matrix_adjugate(const struct matrix* m, struct matrix* adjugate) {
     matrix_assert_square(m);
     matrix_assert_square(adjugate);
     assert(m->rows == adjugate->rows);
@@ -139,7 +139,7 @@ void matrix_adjugate(struct matrix* m, struct matrix* adjugate) {
     }
 }
 
-void matrix_multiply(double c, struct matrix* m, struct matrix* product) {
+void matrix_multiply(double c, const struct matrix* m, struct matrix* product) {
     assert(m->columns == product->columns && m->rows == product->rows);
 
     for(unsigned y = 0; y < m->rows; ++y) {
@@ -149,7 +149,7 @@ void matrix_multiply(double c, struct matrix* m, struct matrix* product) {
     }
 }
 
-void matrix_multiply_matrix(struct matrix* m1, struct matrix* m2, struct matrix* product) {
+void matrix_multiply_matrix(const struct matrix* m1, const struct matrix* m2, struct matrix* product) {
     assert(m1->columns == m2->rows && product->rows == m1->rows && product->columns == m2->columns);
 
     for(unsigned productY = 0; productY < product->rows; ++productY) {
@@ -165,7 +165,7 @@ void matrix_multiply_matrix(struct matrix* m1, struct matrix* m2, struct matrix*
     }
 }
 
-int matrix_inverse(struct matrix* m, struct matrix* inverse) {
+int matrix_inverse(const struct matrix* m, struct matrix* inverse) {
     matrix_assert_square(m);
     matrix_assert_square(inverse);
     assert(m->rows == inverse->rows);
