@@ -149,6 +149,22 @@ void matrix_multiply(double c, struct matrix* m, struct matrix* product) {
     }
 }
 
+void matrix_multiply_matrix(struct matrix* m1, struct matrix* m2, struct matrix* product) {
+    assert(m1->columns == m2->rows && product->rows == m1->rows && product->columns == m2->columns);
+
+    for(unsigned productY = 0; productY < product->rows; ++productY) {
+        for(unsigned productX = 0; productX < product->columns; ++productX) {
+            double p = 0;
+
+            for(unsigned i = 0; i < product->rows; ++i) {
+                p += m1->array[i][productY] * m2->array[productX][i];
+            }
+
+            product->array[productX][productY] = p;
+        }
+    }
+}
+
 int matrix_inverse(struct matrix* m, struct matrix* inverse) {
     matrix_assert_square(m);
     matrix_assert_square(inverse);

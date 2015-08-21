@@ -22,6 +22,7 @@ void matrix_assert_square(struct matrix* m);
 
 // Operations
 void matrix_multiply(double c, struct matrix* m, struct matrix* product);
+void matrix_multiply_matrix(struct matrix* m1, struct matrix* m2, struct matrix* product);
 double matrix_determinant(struct matrix* m);
 void matrix_minors(struct matrix* m, struct matrix* minors);
 void matrix_adjugate(struct matrix* m, struct matrix* adjugate);
