@@ -1,6 +1,8 @@
 #include "matrix.h"
 #include "parse_args.h"
 
+void solve(double** equations, unsigned count);
+
 int main(int argc, char** argv) {
     int equationCount;
     double** equations;
@@ -12,26 +14,28 @@ int main(int argc, char** argv) {
     }
 
     printf("Solving system of %d equations...\n\n", equationCount);
+    solve(equations, equationCount);
 
-    // Resolution
+    return 0;
+}
+
+void solve(double** equations, unsigned count) {
     struct matrix* a;
     struct matrix* b;
     struct matrix* inverse;
     struct matrix* product;
     double determinant;
 
-    a = matrix_create_square(0, equationCount);
-    b = matrix_create(0, 1, equationCount);
-    inverse = matrix_create_square(0, equationCount);
-    product = matrix_create(0, 1, equationCount);
+    a = matrix_create_square(0, count);
+    b = matrix_create(0, 1, count);
+    inverse = matrix_create_square(0, count);
+    product = matrix_create(0, 1, count);
 
-    for(unsigned i = 0; i < equationCount; ++i) {
-        for(unsigned j = 0; j < equationCount; ++j) {
-            fprintf(stderr, "i%d j%d eq%f\n", i, j, equations[i][j]);
+    for(unsigned i = 0; i < count; ++i) {
+        for(unsigned j = 0; j < count; ++j) {
             a->array[j][i] = equations[i][j];
         }
-        fprintf(stderr, "eq%f\n", equations[i][equationCount]);
-        b->array[0][i] = equations[i][equationCount];
+        b->array[0][i] = equations[i][count];
     }
 
     printf("original:\n");
@@ -42,7 +46,7 @@ int main(int argc, char** argv) {
     printf("det: %f\n", determinant);
     if(determinant == 0) {
         printf("unsolvable\n");
-        return 1;
+        return;
     }
 
     matrix_inverse(a, inverse);
@@ -51,14 +55,12 @@ int main(int argc, char** argv) {
 
     matrix_multiply_matrix(inverse, b, product);
     printf("\nresult:\n");
-    printf("x = %f\n", product->array[0][0]);
-    printf("y = %f\n", product->array[0][1]);
-    printf("z = %f\n", product->array[0][2]);
+    printf("x = %+f\n", product->array[0][0]);
+    printf("y = %+f\n", product->array[0][1]);
+    printf("z = %+f\n", product->array[0][2]);
 
     matrix_destroy(a);
     matrix_destroy(b);
     matrix_destroy(inverse);
     matrix_destroy(product);
-
-    return 0;
 }
