@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
 void display_equations(double** equations, int count) {
     for(unsigned i = 0; i < count; ++i) {
-        printf("(%d) ", i);
+        printf("(%d) ", i + 1);
         for(unsigned j = 0; j < count + 1; ++j) {
             if(j == count) {
                 printf("= %+.1f\n", equations[i][j]);
@@ -72,6 +72,7 @@ void solve(double** equations, unsigned count) {
 
         for(unsigned c = p + 1; c < count; ++c) {
             double m = equations[c][p] / equations[p][p];
+
             for(unsigned v = p; v < count + 1; ++v) {
                 equations[c][v] -= equations[p][v] * m;
             }
