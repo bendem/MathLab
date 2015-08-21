@@ -33,7 +33,7 @@ void matrix_destroy(struct matrix* m) {
 void matrix_display(const struct matrix* m) {
     for(unsigned y = 0; y < m->rows; ++y) {
         for(unsigned x = 0; x < m->columns; ++x) {
-            printf("%.3f\t", m->array[x][y]);
+            printf("%+.3f\t", m->array[x][y]);
         }
         printf("\n");
     }

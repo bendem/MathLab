@@ -1,37 +1,17 @@
 #include "matrix.h"
-
-struct system {
-    double a;
-    double b;
-    double c;
-    double d;
-};
+#include "parse_args.h"
 
 int main(int argc, char** argv) {
-    if(argc - 1 != 3 * 4) {
-        fprintf(stderr, "Not enough arguments\n");
-        return -1;
+    int equationCount;
+    double** equations;
+    enum Error result = parse_args(argc, argv, &equationCount, &equations);
+    if(result != Ok) {
+        fprintf(stderr, "error: ");
+        fprintf(stderr, error_message(result));
+        return -result;
     }
 
-    // Arg parsing
-    struct system equations[3];
-    for(unsigned i = 0, cur = 0; i < argc - 1; ++i) {
-        double val = atof(argv[i + 1]);
-        switch(i % 4) {
-            case 0:
-                equations[cur].a = val;
-                break;
-            case 1:
-                equations[cur].b = val;
-                break;
-            case 2:
-                equations[cur].c = val;
-                break;
-            case 3:
-                equations[cur++].d = val;
-                break;
-        }
-    }
+    printf("Solving system of %d equations...\n\n", equationCount);
 
     // Resolution
     struct matrix* a;
@@ -40,16 +20,18 @@ int main(int argc, char** argv) {
     struct matrix* product;
     double determinant;
 
-    a = matrix_create_square(0, 3);
-    b = matrix_create(0, 1, 3);
-    inverse = matrix_create_square(0, 3);
-    product = matrix_create(0, 1, 3);
+    a = matrix_create_square(0, equationCount);
+    b = matrix_create(0, 1, equationCount);
+    inverse = matrix_create_square(0, equationCount);
+    product = matrix_create(0, 1, equationCount);
 
-    for(unsigned i = 0; i < 3; ++i) {
-        a->array[0][i] = equations[i].a;
-        a->array[1][i] = equations[i].b;
-        a->array[2][i] = equations[i].c;
-        b->array[0][i] = equations[i].d;
+    for(unsigned i = 0; i < equationCount; ++i) {
+        for(unsigned j = 0; j < equationCount; ++j) {
+            fprintf(stderr, "i%d j%d eq%f\n", i, j, equations[i][j]);
+            a->array[j][i] = equations[i][j];
+        }
+        fprintf(stderr, "eq%f\n", equations[i][equationCount]);
+        b->array[0][i] = equations[i][equationCount];
     }
 
     printf("original:\n");
