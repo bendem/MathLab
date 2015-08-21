@@ -2,6 +2,7 @@
 #include "parse_args.h"
 
 void display_equations(double** equations, int count);
+double absolute(double);
 void solve(double** equations, unsigned count);
 
 int main(int argc, char** argv) {
@@ -41,8 +42,34 @@ void display_equations(double** equations, int count) {
     }
 }
 
+double absolute(double d) {
+    if(d >= 0) {
+        return d;
+    }
+    return -d;
+}
+
 void solve(double** equations, unsigned count) {
     for(unsigned p = 0; p < count; ++p) {
+        // max pivot -- start
+        double max = equations[p][p];
+        unsigned i_max = p;
+        for(unsigned i = p + 1; i < count; ++i) {
+            if(absolute(equations[i][p]) > max) {
+                max = equations[i][p];
+                i_max = i;
+            }
+        }
+        if(i_max != p) {
+            double tmp;
+            for(unsigned i = p; i < count + 1; ++i) {
+                tmp = equations[p][i];
+                equations[p][i] = equations[i_max][i];
+                equations[i_max][i] = tmp;
+            }
+        }
+        // max pivot -- end
+
         for(unsigned c = p + 1; c < count; ++c) {
             double m = equations[c][p] / equations[p][p];
             for(unsigned v = p; v < count + 1; ++v) {
