@@ -9,3 +9,6 @@ add_executable(matrix_solve ${MATRIX_SOURCES})
 
 set(GAUSS_SOURCES gauss_solve_system.c parse_args.c parse_args.h)
 add_executable(gauss_solve ${GAUSS_SOURCES})
+
+set(ROOT_FINDING_SOURCES root_finding.c)
+add_executable(root_finding ${ROOT_FINDING_SOURCES})
