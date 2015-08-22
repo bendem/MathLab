@@ -13,6 +13,11 @@ int main(int argc, char** argv) {
         return -result;
     }
 
+    if(equationCount != 3) {
+        fprintf(stderr, "Can't solve systems without exactly 3 equations with this method\n");
+        return 1;
+    }
+
     printf("Solving system of %d equations...\n\n", equationCount);
     solve(equations, equationCount);
 
@@ -55,9 +60,9 @@ void solve(double** equations, unsigned count) {
 
     matrix_multiply_matrix(inverse, b, product);
     printf("\nresult:\n");
-    printf("x = %+f\n", product->array[0][0]);
-    printf("y = %+f\n", product->array[0][1]);
-    printf("z = %+f\n", product->array[0][2]);
+    for(unsigned i = 0; i < count; ++i) {
+        printf("x%d = %+f\n", i + 1, product->array[0][i]);
+    }
 
     matrix_destroy(a);
     matrix_destroy(b);

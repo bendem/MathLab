@@ -10,7 +10,7 @@ enum Error parse_args(int argc, char** argv, int* equationCount, double*** equat
 
     int count = atoi(*argv);
     *equationCount = count;
-    if(count < 3) {
+    if(count < 1) {
         return EquationCountTooLow;
     }
 
@@ -47,7 +47,7 @@ const char* error_message(enum Error error) {
         case MissingEquationCount:
             return "Missing equation count argument\n";
         case EquationCountTooLow:
-            return "Equation count needs to be at least 3\n";
+            return "Equation count needs to be at least 1\n";
         case MissingArg:
             return "You didn't provide the correct number of arguments for the provided equation count\n";
     }
