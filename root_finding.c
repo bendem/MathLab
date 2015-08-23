@@ -23,6 +23,8 @@ int main(int argc, char** argv) {
         max = tmp;
     }
 
+    printf("findind root between %.3f and %.3f\n\n", min, max);
+
     double r_min = f(min);
     double r_max = f(max);
 
