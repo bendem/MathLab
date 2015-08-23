@@ -71,6 +71,7 @@ double dichotomy(double min, double max) {
         middle = (min + max) / 2;
         a = f(min);
         b = f(middle);
+
         if(b == 0) {
             break;
         }
@@ -90,21 +91,27 @@ double dichotomy(double min, double max) {
 }
 
 double rope(double min, double max) {
-    double min_p, max_p, c;
+    double min_p, max_p,
+        f_min = f(min),
+        f_max = f(max),
+        fc, c;
 
     while(1) {
-        c = (min * f(max) - max * f(min)) / (f(max) - f(min));
+        c = (min * f_max - max * f_min) / (f_max - f_min);
+        fc = f(c);
         min_p = min;
         max_p = max;
 
-        if(f(c) == 0) {
+        if(fc == 0) {
             break;
         }
 
-        if(f(min) * f(c) > 0) {
+        if(f_min * fc > 0) {
             min = c;
+            f_min = f(min);
         } else {
             max = c;
+            f_max = f(max);
         }
 
         if(absolute(max - min) < PRECISION || absolute(max - min) >= absolute(max_p - min_p)) {
