@@ -47,27 +47,27 @@ double matrix_determinant(const struct matrix* m) {
     matrix_assert_square(m);
 
     unsigned size = m->columns;
-    double determinant = 0;
 
     if(size == 2) {
         return m->array[0][0] * m->array[1][1] - m->array[1][0] * m->array[0][1];
     }
 
+    double determinant = 0;
     for(unsigned i = 0; i < size; ++i) {
         double tmp = 1;
         for(unsigned x = i, y = 0; y < size; ++x, ++y) {
-            tmp *= m->array[x % size][y % size];
+            tmp *= m->array[x % size][y];
         }
         determinant += tmp;
     }
 
     for(unsigned i = 0; i < size; ++i) {
-        double tmp = -1;
-        for(unsigned x = size - i, y = 0; y < size; --x, ++y) {
-            tmp *= m->array[x % size][y % size];
+        double tmp = 1;
+        for(unsigned x = i, y = size - 1; y < size; ++x, --y) {
+            tmp *= m->array[x % size][y];
         }
 
-        determinant += tmp;
+        determinant -= tmp;
     }
 
     return determinant;
