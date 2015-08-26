@@ -13,6 +13,11 @@ int main(int argc, char** argv) {
         return -result;
     }
 
+     if(equationCount != 3) {
+         fprintf(stderr, "Can't solve systems without exactly 3 equations with this method\n");
+         return 1;
+     }
+
     printf("Solving system of %d equations...\n\n", equationCount);
     solve(equations, equationCount);
 

@@ -45,6 +45,7 @@ void matrix_assert_square(const struct matrix* m) {
 
 double matrix_determinant(const struct matrix* m) {
     matrix_assert_square(m);
+    assert(m->rows < 4);
 
     unsigned size = m->columns;
 
