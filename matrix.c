@@ -4,13 +4,13 @@ struct matrix* matrix_create(double content, unsigned columns, unsigned rows) {
     struct matrix* m = (struct matrix*) malloc(sizeof(struct matrix));
     m->columns = columns;
     m->rows = rows;
-    m->array = (double**) malloc(sizeof(double*[rows]));
-    for(unsigned i = 0; i < rows; ++i) {
-        m->array[i] = (double*) malloc(sizeof(double[columns]));
+    m->array = (double**) malloc(sizeof(double*) * columns);
+    for(unsigned i = 0; i < columns; ++i) {
+        m->array[i] = (double*) malloc(sizeof(double) * rows);
     }
 
-    for(unsigned y = 0; y < m->rows; ++y) {
-        for(unsigned x = 0; x < m->columns; ++x) {
+    for(unsigned x = 0; x < m->columns; ++x) {
+        for(unsigned y = 0; y < m->rows; ++y) {
             m->array[x][y] = content;
         }
     }
@@ -23,7 +23,7 @@ struct matrix* matrix_create_square(double content, unsigned size) {
 }
 
 void matrix_destroy(struct matrix* m) {
-    for(unsigned i = 0; i < m->rows; ++i) {
+    for(unsigned i = 0; i < m->columns; ++i) {
         free(m->array[i]);
     }
     free(m->array);
